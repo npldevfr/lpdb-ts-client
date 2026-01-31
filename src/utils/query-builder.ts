@@ -1,4 +1,8 @@
-// Builds a query string from an object of parameters
+/**
+ * Builds a query string from an object of parameters.
+ * @param params
+ * @returns The constructed query string, starting with '?' if there are parameters, otherwise an empty string.
+ */
 export function buildQueryString(params: Record<string, string | number | undefined>): string {
   const searchParams = new URLSearchParams()
 
