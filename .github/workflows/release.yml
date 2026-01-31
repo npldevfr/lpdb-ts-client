@@ -11,5 +11,5 @@ jobs:
     with:
       publish: true
     permissions:
-      contents: write
+      contents: read
       id-token: write
