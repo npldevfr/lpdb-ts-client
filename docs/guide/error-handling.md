@@ -10,10 +10,7 @@ import { LPDBClient, LPDBError } from 'lpdb-ts-client'
 const client = new LPDBClient({ apiKey: 'your-api-key' })
 
 try {
-  const response = await client
-    .endpoint('/player')
-    .wiki('dota2')
-    .execute()
+  const response = await client.endpoint('/player').wiki('dota2').execute()
 } catch (error) {
   if (error instanceof LPDBError) {
     console.error('Status:', error.status)
@@ -25,29 +22,26 @@ try {
 
 ## Error Properties
 
-| Property | Type | Description |
-|----------|------|-------------|
-| `status` | `number` | HTTP status code |
-| `message` | `string` | Error message |
-| `data` | `unknown` | Raw error response from API |
+| Property  | Type      | Description                 |
+| --------- | --------- | --------------------------- |
+| `status`  | `number`  | HTTP status code            |
+| `message` | `string`  | Error message               |
+| `data`    | `unknown` | Raw error response from API |
 
 ## Common Error Codes
 
-| Status | Description |
-|--------|-------------|
-| `403` | Invalid API key |
-| `404` | Resource not found |
-| `429` | Rate limit exceeded |
+| Status | Description         |
+| ------ | ------------------- |
+| `403`  | Invalid API key     |
+| `404`  | Resource not found  |
+| `429`  | Rate limit exceeded |
 
 ## Handling Rate Limits
 
 Liquipedia has rate limits. Handle 429 errors with retry logic:
 
 ```typescript
-async function queryWithRetry<T>(
-  fn: () => Promise<T>,
-  maxRetries = 3
-): Promise<T> {
+async function queryWithRetry<T>(fn: () => Promise<T>, maxRetries = 3): Promise<T> {
   for (let i = 0; i < maxRetries; i++) {
     try {
       return await fn()
@@ -55,7 +49,7 @@ async function queryWithRetry<T>(
       if (error instanceof LPDBError && error.status === 429) {
         const delay = Math.pow(2, i) * 1000 // Exponential backoff
         console.log(`Rate limited, retrying in ${delay}ms...`)
-        await new Promise(resolve => setTimeout(resolve, delay))
+        await new Promise((resolve) => setTimeout(resolve, delay))
         continue
       }
       throw error

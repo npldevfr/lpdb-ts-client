@@ -10,18 +10,10 @@ const client = new LPDBClient({ apiKey })
 
 async function main() {
   try {
-    const players = await client
-      .endpoint('/player')
-      .wiki('dota2')
-      .limit(5)
-      .execute()
+    const players = await client.endpoint('/player').wiki('dota2').limit(5).execute()
     console.log('Players:', JSON.stringify(players, null, 2))
 
-    const matches = await client
-      .endpoint('/match')
-      .wikis(['counterstrike'])
-      .limit(3)
-      .execute()
+    const matches = await client.endpoint('/match').wikis(['counterstrike']).limit(3).execute()
     console.log('Matches:', JSON.stringify(matches, null, 2))
 
     const template = await client
@@ -46,7 +38,6 @@ async function main() {
       .limit(10)
       .build()
     console.log('Built query:', query)
-
   } catch (error) {
     if (error instanceof LPDBError) {
       console.error(`API Error (${error.status}):`, error.message)

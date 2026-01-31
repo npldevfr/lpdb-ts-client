@@ -7,7 +7,7 @@ export type {
   SuccessfulResponse,
   SuccessfulResponseWithWarning,
   ErrorResponse,
-  StandardEndpoint
+  StandardEndpoint,
 } from './types/endpoints'
 export type { Wiki } from './types/wikis'
 export type { paths, components } from './types/openapi/generated'

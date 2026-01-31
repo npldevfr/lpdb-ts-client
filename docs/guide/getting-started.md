@@ -33,15 +33,11 @@ import { LPDBClient } from 'lpdb-ts-client'
 
 // Create a client instance
 const client = new LPDBClient({
-  apiKey: 'your-api-key'
+  apiKey: 'your-api-key',
 })
 
 // Query players from Dota 2
-const response = await client
-  .endpoint('/player')
-  .wiki('dota2')
-  .limit(10)
-  .execute()
+const response = await client.endpoint('/player').wiki('dota2').limit(10).execute()
 
 console.log(response.result)
 ```
@@ -54,7 +50,7 @@ Here's a more complete example showing various features:
 import { LPDBClient, LPDBError } from 'lpdb-ts-client'
 
 const client = new LPDBClient({
-  apiKey: process.env.LIQUIPEDIA_API_KEY!
+  apiKey: process.env.LIQUIPEDIA_API_KEY!,
 })
 
 async function main() {
@@ -81,7 +77,6 @@ async function main() {
       .execute()
 
     console.log('Matches:', matches.result)
-
   } catch (error) {
     if (error instanceof LPDBError) {
       console.error(`API Error (${error.status}):`, error.message)

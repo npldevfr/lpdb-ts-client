@@ -1,7 +1,7 @@
 import type { paths } from './types/openapi/generated'
 import type { EndpointPath, ApiResponse } from './types/endpoints'
 import { buildQueryString } from './utils/query-builder'
-import type {Wiki} from "./types/wikis";
+import type { Wiki } from './types/wikis'
 
 const DEFAULT_BASE_URL = 'https://api.liquipedia.net/api/v3'
 
@@ -14,7 +14,9 @@ export interface LPDBClientOptions {
 type QueryParams<T extends EndpointPath> = paths[T]['get']['parameters']['query']
 
 // Check if a key exists in the query params for an endpoint
-type HasParam<T extends EndpointPath, K extends string> = K extends keyof QueryParams<T> ? true : false
+type HasParam<T extends EndpointPath, K extends string> = K extends keyof QueryParams<T>
+  ? true
+  : false
 
 // Builder class for constructing API queries
 export class QueryBuilder<T extends EndpointPath> {
@@ -133,8 +135,8 @@ export class LPDBClient {
     const response = await fetch(url, {
       method: 'GET',
       headers: {
-        'Authorization': `Apikey ${this.apiKey}`,
-        'Accept': 'application/json',
+        Authorization: `Apikey ${this.apiKey}`,
+        Accept: 'application/json',
       },
     })
 

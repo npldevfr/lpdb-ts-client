@@ -21,7 +21,7 @@ describe('LPDBClient', () => {
     it('should create client with custom base URL', () => {
       const client = new LPDBClient({
         apiKey: mockApiKey,
-        baseUrl: 'https://custom.api.com'
+        baseUrl: 'https://custom.api.com',
       })
       expect(client).toBeInstanceOf(LPDBClient)
     })
@@ -42,7 +42,7 @@ describe('LPDBClient', () => {
       const mockResponse = { result: [{ id: '1', name: 'Player' }] }
       vi.mocked(fetch).mockResolvedValueOnce({
         ok: true,
-        json: () => Promise.resolve(mockResponse)
+        json: () => Promise.resolve(mockResponse),
       } as Response)
 
       const client = new LPDBClient({ apiKey: mockApiKey })
@@ -53,9 +53,9 @@ describe('LPDBClient', () => {
         {
           method: 'GET',
           headers: {
-            'Authorization': `Apikey ${mockApiKey}`,
-            'Accept': 'application/json'
-          }
+            Authorization: `Apikey ${mockApiKey}`,
+            Accept: 'application/json',
+          },
         }
       )
       expect(result).toEqual(mockResponse)
@@ -66,14 +66,12 @@ describe('LPDBClient', () => {
       vi.mocked(fetch).mockResolvedValueOnce({
         ok: false,
         status: 403,
-        json: () => Promise.resolve(errorData)
+        json: () => Promise.resolve(errorData),
       } as Response)
 
       const client = new LPDBClient({ apiKey: mockApiKey })
 
-      await expect(
-        client.endpoint('/player').wiki('dota2').execute()
-      ).rejects.toThrow(LPDBError)
+      await expect(client.endpoint('/player').wiki('dota2').execute()).rejects.toThrow(LPDBError)
     })
 
     it('should include error data in LPDBError', async () => {
@@ -81,7 +79,7 @@ describe('LPDBClient', () => {
       vi.mocked(fetch).mockResolvedValueOnce({
         ok: false,
         status: 429,
-        json: () => Promise.resolve(errorData)
+        json: () => Promise.resolve(errorData),
       } as Response)
 
       const client = new LPDBClient({ apiKey: mockApiKey })
@@ -99,7 +97,7 @@ describe('LPDBClient', () => {
       vi.mocked(fetch).mockResolvedValueOnce({
         ok: false,
         status: 500,
-        json: () => Promise.reject(new Error('Invalid JSON'))
+        json: () => Promise.reject(new Error('Invalid JSON')),
       } as Response)
 
       const client = new LPDBClient({ apiKey: mockApiKey })

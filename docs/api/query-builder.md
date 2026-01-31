@@ -47,10 +47,7 @@ execute(): Promise<ApiResponse>
 ```
 
 ```typescript
-const response = await client
-  .endpoint('/player')
-  .wiki('dota2')
-  .execute()
+const response = await client.endpoint('/player').wiki('dota2').execute()
 ```
 
 ### build
@@ -62,11 +59,7 @@ build(): { path: T; params: Record<string, string | number | undefined> }
 ```
 
 ```typescript
-const query = client
-  .endpoint('/player')
-  .wiki('dota2')
-  .limit(10)
-  .build()
+const query = client.endpoint('/player').wiki('dota2').limit(10).build()
 
 // { path: '/player', params: { wiki: 'dota2', limit: 10 } }
 ```

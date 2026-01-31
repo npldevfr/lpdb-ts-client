@@ -1,0 +1,9 @@
+dist
+coverage
+node_modules
+docs/.vitepress/cache
+docs/.vitepress/dist
+src/types/openapi/generated.d.ts
+bun.lock
+pnpm-lock.yaml
+package-lock.json

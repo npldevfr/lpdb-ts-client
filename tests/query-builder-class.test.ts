@@ -29,7 +29,7 @@ describe('QueryBuilder', () => {
       expect(params).toEqual({
         wiki: 'dota2',
         conditions: '[[id::TaeJa]]',
-        limit: 5
+        limit: 5,
       })
     })
   })
@@ -54,28 +54,20 @@ describe('QueryBuilder', () => {
         limit: 50,
         offset: 100,
         order: 'name ASC',
-        groupby: 'nationality'
+        groupby: 'nationality',
       })
     })
   })
 
   describe('/match endpoint specific params', () => {
     it('should accept rawstreams param', () => {
-      const { params } = client
-        .endpoint('/match')
-        .wiki('counterstrike')
-        .rawstreams('true')
-        .build()
+      const { params } = client.endpoint('/match').wiki('counterstrike').rawstreams('true').build()
 
       expect(params.rawstreams).toBe('true')
     })
 
     it('should accept streamurls param', () => {
-      const { params } = client
-        .endpoint('/match')
-        .wiki('valorant')
-        .streamurls('true')
-        .build()
+      const { params } = client.endpoint('/match').wiki('valorant').streamurls('true').build()
 
       expect(params.streamurls).toBe('true')
     })
@@ -93,7 +85,7 @@ describe('QueryBuilder', () => {
         wiki: 'dota2',
         rawstreams: 'true',
         streamurls: 'false',
-        limit: 10
+        limit: 10,
       })
     })
   })
@@ -108,7 +100,7 @@ describe('QueryBuilder', () => {
 
       expect(params).toEqual({
         wiki: 'dota2',
-        template: 'teamliquid'
+        template: 'teamliquid',
       })
     })
 
@@ -123,7 +115,7 @@ describe('QueryBuilder', () => {
       expect(params).toEqual({
         wiki: 'leagueoflegends',
         template: 't1',
-        date: '2020-01-01'
+        date: '2020-01-01',
       })
     })
   })
@@ -138,7 +130,7 @@ describe('QueryBuilder', () => {
 
       expect(params).toEqual({
         wiki: 'counterstrike',
-        pagination: 2
+        pagination: 2,
       })
     })
   })
@@ -157,18 +149,14 @@ describe('QueryBuilder', () => {
 
   describe('build method', () => {
     it('should return path and params', () => {
-      const result = client
-        .endpoint('/tournament')
-        .wiki('leagueoflegends')
-        .limit(5)
-        .build()
+      const result = client.endpoint('/tournament').wiki('leagueoflegends').limit(5).build()
 
       expect(result).toEqual({
         path: '/tournament',
         params: {
           wiki: 'leagueoflegends',
-          limit: 5
-        }
+          limit: 5,
+        },
       })
     })
   })

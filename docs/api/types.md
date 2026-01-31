@@ -98,7 +98,7 @@ type Wiki =
   | 'rocketleague'
   | 'starcraft2'
   | 'valorant'
-  // ... and 60+ more
+// ... and 60+ more
 ```
 
 ## Endpoint Category Types

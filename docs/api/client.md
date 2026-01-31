@@ -17,10 +17,10 @@ interface LPDBClientOptions {
 }
 ```
 
-| Option | Type | Required | Default | Description |
-|--------|------|----------|---------|-------------|
-| `apiKey` | `string` | Yes | - | Your Liquipedia API key |
-| `baseUrl` | `string` | No | `https://api.liquipedia.net/api/v3` | API base URL |
+| Option    | Type     | Required | Default                             | Description             |
+| --------- | -------- | -------- | ----------------------------------- | ----------------------- |
+| `apiKey`  | `string` | Yes      | -                                   | Your Liquipedia API key |
+| `baseUrl` | `string` | No       | `https://api.liquipedia.net/api/v3` | API base URL            |
 
 ### Example
 
@@ -28,7 +28,7 @@ interface LPDBClientOptions {
 import { LPDBClient } from 'lpdb-ts-client'
 
 const client = new LPDBClient({
-  apiKey: 'your-api-key'
+  apiKey: 'your-api-key',
 })
 ```
 
@@ -44,9 +44,9 @@ endpoint<T extends EndpointPath>(path: T): QueryBuilder<T>
 
 #### Parameters
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `path` | `EndpointPath` | The API endpoint path |
+| Parameter | Type           | Description           |
+| --------- | -------------- | --------------------- |
+| `path`    | `EndpointPath` | The API endpoint path |
 
 #### Returns
 

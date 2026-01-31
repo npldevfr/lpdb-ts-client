@@ -4,22 +4,22 @@
 
 These endpoints support all common parameters (`wiki`, `conditions`, `query`, `limit`, `offset`, `order`, `groupby`):
 
-| Endpoint | Description |
-|----------|-------------|
-| `/player` | Player information |
-| `/team` | Team information |
-| `/match` | Match data (has extra params) |
-| `/tournament` | Tournament information |
-| `/transfer` | Player transfers |
-| `/placement` | Tournament placements |
-| `/series` | Series/leagues |
-| `/squadplayer` | Team rosters |
-| `/broadcasters` | Stream broadcasters |
-| `/company` | Organizations/companies |
-| `/datapoint` | Custom data points |
-| `/externalmedialink` | External media links |
-| `/standingsentry` | Standing entries |
-| `/standingstable` | Standing tables |
+| Endpoint             | Description                   |
+| -------------------- | ----------------------------- |
+| `/player`            | Player information            |
+| `/team`              | Team information              |
+| `/match`             | Match data (has extra params) |
+| `/tournament`        | Tournament information        |
+| `/transfer`          | Player transfers              |
+| `/placement`         | Tournament placements         |
+| `/series`            | Series/leagues                |
+| `/squadplayer`       | Team rosters                  |
+| `/broadcasters`      | Stream broadcasters           |
+| `/company`           | Organizations/companies       |
+| `/datapoint`         | Custom data points            |
+| `/externalmedialink` | External media links          |
+| `/standingsentry`    | Standing entries              |
+| `/standingstable`    | Standing tables               |
 
 ## Special Endpoints
 
@@ -31,16 +31,16 @@ The match endpoint has additional parameters for stream data:
 const matches = await client
   .endpoint('/match')
   .wiki('counterstrike')
-  .rawstreams('true')   // Get raw stream data
-  .streamurls('true')   // Get stream URLs
+  .rawstreams('true') // Get raw stream data
+  .streamurls('true') // Get stream URLs
   .limit(10)
   .execute()
 ```
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
+| Parameter    | Type                | Description             |
+| ------------ | ------------------- | ----------------------- |
 | `rawstreams` | `'true' \| 'false'` | Include raw stream data |
-| `streamurls` | `'true' \| 'false'` | Include stream URLs |
+| `streamurls` | `'true' \| 'false'` | Include stream URLs     |
 
 ### /teamtemplate
 
@@ -50,16 +50,16 @@ Get a single team template:
 const template = await client
   .endpoint('/teamtemplate')
   .wiki('dota2')
-  .template('teamliquid')       // Required: template name
-  .date('2020-01-01')           // Optional: for historical logos
+  .template('teamliquid') // Required: template name
+  .date('2020-01-01') // Optional: for historical logos
   .execute()
 ```
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `wiki` | `string` | Yes | Wiki name |
-| `template` | `string` | Yes | Team template name |
-| `date` | `string` | No | Date for historical logos (YYYY-MM-DD) |
+| Parameter  | Type     | Required | Description                            |
+| ---------- | -------- | -------- | -------------------------------------- |
+| `wiki`     | `string` | Yes      | Wiki name                              |
+| `template` | `string` | Yes      | Team template name                     |
+| `date`     | `string` | No       | Date for historical logos (YYYY-MM-DD) |
 
 ### /teamtemplatelist
 
@@ -69,14 +69,14 @@ Get a paginated list of team templates:
 const templates = await client
   .endpoint('/teamtemplatelist')
   .wiki('leagueoflegends')
-  .pagination(1)              // Page number (200 per page)
+  .pagination(1) // Page number (200 per page)
   .execute()
 ```
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `wiki` | `string` | Yes | Wiki name |
-| `pagination` | `number` | No | Page number |
+| Parameter    | Type     | Required | Description |
+| ------------ | -------- | -------- | ----------- |
+| `wiki`       | `string` | Yes      | Wiki name   |
+| `pagination` | `number` | No       | Page number |
 
 ## Type Safety
 
@@ -99,10 +99,11 @@ The `Wiki` type includes all supported wikis:
 ```typescript
 import type { Wiki } from 'lpdb-ts-client'
 
-const wiki: Wiki = 'dota2'  // Type-safe wiki names
+const wiki: Wiki = 'dota2' // Type-safe wiki names
 ```
 
 Some popular wikis:
+
 - `dota2`
 - `counterstrike`
 - `leagueoflegends`

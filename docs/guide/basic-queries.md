@@ -6,11 +6,11 @@ The client uses a fluent builder pattern. Each method returns the builder instan
 
 ```typescript
 const response = await client
-  .endpoint('/player')    // Select endpoint
-  .wiki('dota2')          // Set wiki
-  .conditions('...')      // Add filters
-  .limit(10)              // Limit results
-  .execute()              // Execute the query
+  .endpoint('/player') // Select endpoint
+  .wiki('dota2') // Set wiki
+  .conditions('...') // Add filters
+  .limit(10) // Limit results
+  .execute() // Execute the query
 ```
 
 ## Common Parameters
@@ -107,18 +107,14 @@ All responses follow this structure:
 ```typescript
 interface ApiResponse {
   result: Record<string, unknown>[]
-  warning?: string[]  // Present if there are warnings
+  warning?: string[] // Present if there are warnings
 }
 ```
 
 Example:
 
 ```typescript
-const response = await client
-  .endpoint('/player')
-  .wiki('dota2')
-  .limit(2)
-  .execute()
+const response = await client.endpoint('/player').wiki('dota2').limit(2).execute()
 
 // response.result:
 // [

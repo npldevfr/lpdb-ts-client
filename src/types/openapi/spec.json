@@ -24,9 +24,7 @@
       "get": {
         "summary": "Get broadcasters",
         "description": "Get information from the broadcasters table.",
-        "tags": [
-          "v3"
-        ],
+        "tags": ["v3"],
         "security": [
           {
             "ApiKeyAuth": []
@@ -110,9 +108,7 @@
       "get": {
         "summary": "Get companies",
         "description": "Get information from the company table.",
-        "tags": [
-          "v3"
-        ],
+        "tags": ["v3"],
         "security": [
           {
             "ApiKeyAuth": []
@@ -196,9 +192,7 @@
       "get": {
         "summary": "Get datapoints",
         "description": "Get information from the datapoint table. This information is unspecified between wikis and can hold a variety of things.",
-        "tags": [
-          "v3"
-        ],
+        "tags": ["v3"],
         "security": [
           {
             "ApiKeyAuth": []
@@ -282,9 +276,7 @@
       "get": {
         "summary": "Get media links",
         "description": "Get information from the externalmedialink table.",
-        "tags": [
-          "v3"
-        ],
+        "tags": ["v3"],
         "security": [
           {
             "ApiKeyAuth": []
@@ -368,9 +360,7 @@
       "get": {
         "summary": "Get matches",
         "description": "Get information from the match2 table.",
-        "tags": [
-          "v3"
-        ],
+        "tags": ["v3"],
         "security": [
           {
             "ApiKeyAuth": []
@@ -404,10 +394,7 @@
             "description": "If you want the raw stream data. Read the full documentation on how this correlates with `streamurls`.\n\n**Example:** `true`, `false`",
             "schema": {
               "type": "string",
-              "enum": [
-                "true",
-                "false"
-              ],
+              "enum": ["true", "false"],
               "default": "false"
             }
           },
@@ -417,10 +404,7 @@
             "description": "If you want to get stream urls to link to. Read the full documentation on how this correlates with `rawstreams`.\n\n**Example:** `true`, `false`",
             "schema": {
               "type": "string",
-              "enum": [
-                "true",
-                "false"
-              ],
+              "enum": ["true", "false"],
               "default": "false"
             }
           }
@@ -480,9 +464,7 @@
       "get": {
         "summary": "Get placements",
         "description": "Get information from the placement table.",
-        "tags": [
-          "v3"
-        ],
+        "tags": ["v3"],
         "security": [
           {
             "ApiKeyAuth": []
@@ -566,9 +548,7 @@
       "get": {
         "summary": "Get players",
         "description": "Get information from the player table.",
-        "tags": [
-          "v3"
-        ],
+        "tags": ["v3"],
         "security": [
           {
             "ApiKeyAuth": []
@@ -652,9 +632,7 @@
       "get": {
         "summary": "Get series",
         "description": "Get information from the series table.",
-        "tags": [
-          "v3"
-        ],
+        "tags": ["v3"],
         "security": [
           {
             "ApiKeyAuth": []
@@ -738,9 +716,7 @@
       "get": {
         "summary": "Get squadplayer",
         "description": "Get information from the squadplayer table.",
-        "tags": [
-          "v3"
-        ],
+        "tags": ["v3"],
         "security": [
           {
             "ApiKeyAuth": []
@@ -824,9 +800,7 @@
       "get": {
         "summary": "Get standing",
         "description": "Get information from the standing entries table.",
-        "tags": [
-          "v3"
-        ],
+        "tags": ["v3"],
         "security": [
           {
             "ApiKeyAuth": []
@@ -910,9 +884,7 @@
       "get": {
         "summary": "Get standing",
         "description": "Get information from the standing table.",
-        "tags": [
-          "v3"
-        ],
+        "tags": ["v3"],
         "security": [
           {
             "ApiKeyAuth": []
@@ -996,9 +968,7 @@
       "get": {
         "summary": "Get teams",
         "description": "Get information from the team table.",
-        "tags": [
-          "v3"
-        ],
+        "tags": ["v3"],
         "security": [
           {
             "ApiKeyAuth": []
@@ -1082,9 +1052,7 @@
       "get": {
         "summary": "Get a team template",
         "description": "Use this to get a single team template.",
-        "tags": [
-          "v3"
-        ],
+        "tags": ["v3"],
         "security": [
           {
             "ApiKeyAuth": []
@@ -1173,9 +1141,7 @@
       "get": {
         "summary": "Get a list of team templates",
         "description": "Use this to query a list of team templates in pages of 200.",
-        "tags": [
-          "v3"
-        ],
+        "tags": ["v3"],
         "security": [
           {
             "ApiKeyAuth": []
@@ -1255,9 +1221,7 @@
       "get": {
         "summary": "Get tournaments",
         "description": "Get information from the tournament table.",
-        "tags": [
-          "v3"
-        ],
+        "tags": ["v3"],
         "security": [
           {
             "ApiKeyAuth": []
@@ -1341,9 +1305,7 @@
       "get": {
         "summary": "Get transfers",
         "description": "Get information from the transfer table.",
-        "tags": [
-          "v3"
-        ],
+        "tags": ["v3"],
         "security": [
           {
             "ApiKeyAuth": []
