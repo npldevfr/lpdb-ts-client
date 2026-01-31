@@ -1,17 +1,17 @@
 {
-  "name": "lpdb-v3-client",
+  "name": "lpdb-ts-client",
   "type": "module",
   "version": "0.0.0",
   "description": "A client library for LPDB V3 API",
   "author": "npldevfr",
   "license": "MIT",
-  "homepage": "https://github.com/npldevfr/lpdb-v3-client",
+  "homepage": "https://github.com/npldevfr/lpdb-ts-client",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/npldevfr/lpdb-v3-client.git"
+    "url": "git+https://github.com/npldevfr/lpdb-ts-client.git"
   },
   "bugs": {
-    "url": "https://github.com/npldevfr/lpdb-v3-client/issues"
+    "url": "https://github.com/npldevfr/lpdb-ts-client/issues"
   },
   "exports": {
     ".": "./dist/index.mjs",
@@ -32,6 +32,9 @@
     "typecheck": "tsc --noEmit",
     "generate:types": "openapi-typescript src/types/openapi/spec.json -o src/types/openapi/generated.d.ts",
     "playground": "bun playground/index.ts",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs",
     "prepublishOnly": "pnpm run build"
   },
   "devDependencies": {
@@ -41,6 +44,7 @@
     "openapi-typescript": "^7.10.1",
     "tsdown": "^0.18.1",
     "typescript": "^5.9.3",
+    "vitepress": "^1.6.4",
     "vitest": "^4.0.16"
   }
 }
