@@ -6,13 +6,6 @@ on:
       - 'v*'
 
 jobs:
-  github:
-    uses: sxzz/workflows/.github/workflows/release.yml@v1
-    with:
-      publish: true
-    permissions:
-      contents: write
-      id-token: write
   release:
     name: Release
     runs-on: ubuntu-latest
@@ -25,22 +18,21 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: pnpm
           registry-url: https://registry.npmjs.org
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: bun run build
+        run: pnpm run build
 
       - name: Publish to npm
         run: npm publish --provenance --access public
