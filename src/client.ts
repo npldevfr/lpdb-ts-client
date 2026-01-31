@@ -1,6 +1,7 @@
 import type { paths } from './types/openapi/generated'
 import type { EndpointPath, ApiResponse } from './types/endpoints'
 import { buildQueryString } from './utils/query-builder'
+import type {Wiki} from "./types/wikis";
 
 const DEFAULT_BASE_URL = 'https://api.liquipedia.net/api/v3'
 
@@ -27,12 +28,12 @@ export class QueryBuilder<T extends EndpointPath> {
   }
 
   // Common parameters available on most endpoints
-  wiki(value: string): this {
+  wiki(value: Wiki): this {
     this.params.wiki = value
     return this
   }
 
-  wikis(value: string[]): this {
+  wikis(value: Wiki[]): this {
     this.params.wikis = value.join('|')
     return this
   }

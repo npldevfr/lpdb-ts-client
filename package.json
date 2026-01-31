@@ -29,6 +29,7 @@
     "test": "vitest",
     "typecheck": "tsc --noEmit",
     "generate:types": "openapi-typescript src/types/openapi/spec.json -o src/types/openapi/generated.d.ts",
+    "playground": "bun playground/index.ts",
     "prepublishOnly": "pnpm run build"
   },
   "devDependencies": {
