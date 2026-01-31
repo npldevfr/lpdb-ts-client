@@ -1,5 +1,5 @@
 {
-  "name": "lpdb-ts-client",
+  "name": "@npldev/lpdb-ts-client",
   "type": "module",
   "version": "0.0.0",
   "description": "A client library for LPDB V3 API",
