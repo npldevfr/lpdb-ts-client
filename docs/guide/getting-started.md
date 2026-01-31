@@ -5,19 +5,19 @@
 ::: code-group
 
 ```bash [bun]
-bun add lpdb-ts-client
+bun add @npldev/lpdb-ts-client
 ```
 
 ```bash [pnpm]
-pnpm add lpdb-ts-client
+pnpm add @npldev/lpdb-ts-client
 ```
 
 ```bash [npm]
-npm install lpdb-ts-client
+npm install @npldev/lpdb-ts-client
 ```
 
 ```bash [yarn]
-yarn add lpdb-ts-client
+yarn add @npldev/lpdb-ts-client
 ```
 
 :::
@@ -29,7 +29,7 @@ You need a Liquipedia API key to use this client. You can request one at [Liquip
 ## Quick Start
 
 ```typescript
-import { LPDBClient } from 'lpdb-ts-client'
+import { LPDBClient } from '@npldev/lpdb-ts-client'
 
 // Create a client instance
 const client = new LPDBClient({
@@ -47,7 +47,7 @@ console.log(response.result)
 Here's a more complete example showing various features:
 
 ```typescript
-import { LPDBClient, LPDBError } from 'lpdb-ts-client'
+import { LPDBClient, LPDBError } from '@npldev/lpdb-ts-client'
 
 const client = new LPDBClient({
   apiKey: process.env.LIQUIPEDIA_API_KEY!,

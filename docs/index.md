@@ -5,6 +5,9 @@ hero:
   name: LPDB Client
   text: Type-safe Liquipedia API v3 Client
   tagline: A fully typed TypeScript client with fluent builder pattern
+  image:
+    src: /assets/liquipedia-ts.png
+    alt: LPDB Client Logo
   actions:
     - theme: brand
       text: Get Started

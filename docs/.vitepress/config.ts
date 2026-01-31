@@ -1,10 +1,12 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  title: 'LPDB Client',
+  title: 'LPDBv3 Client',
   description: 'Type-safe TypeScript client for Liquipedia API v3',
   base: '/lpdb-ts-client',
+  head: [['link', { rel: 'icon', href: '/lpdb-ts-client/assets/liquipedia-ts.png' }]],
   themeConfig: {
+    logo: '/assets/liquipedia-ts.png',
     nav: [
       { text: 'Guide', link: '/guide/getting-started' },
       { text: 'API', link: '/api/client' },
