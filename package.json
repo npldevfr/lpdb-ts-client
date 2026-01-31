@@ -57,6 +57,7 @@
     "tsdown": "^0.18.1",
     "typescript": "^5.9.3",
     "vitepress": "^1.6.4",
-    "vitest": "^4.0.16"
+    "vitest": "^4.0.16",
+    "changelogithub": "^14.0.0"
   }
 }
