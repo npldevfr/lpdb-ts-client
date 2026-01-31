@@ -94,6 +94,24 @@ describe('LPDBClient', () => {
         expect((error as LPDBError).data).toEqual(errorData)
       }
     })
+
+    it('should fallback to empty object when response.json() fails', async () => {
+      vi.mocked(fetch).mockResolvedValueOnce({
+        ok: false,
+        status: 500,
+        json: () => Promise.reject(new Error('Invalid JSON'))
+      } as Response)
+
+      const client = new LPDBClient({ apiKey: mockApiKey })
+
+      try {
+        await client.endpoint('/player').wiki('dota2').execute()
+      } catch (error) {
+        expect(error).toBeInstanceOf(LPDBError)
+        expect((error as LPDBError).status).toBe(500)
+        expect((error as LPDBError).data).toEqual({})
+      }
+    })
   })
 })
 
