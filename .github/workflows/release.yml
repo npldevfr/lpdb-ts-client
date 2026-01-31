@@ -6,6 +6,13 @@ on:
       - 'v*'
 
 jobs:
+  github:
+    uses: sxzz/workflows/.github/workflows/release.yml@v1
+    with:
+      publish: true
+    permissions:
+      contents: write
+      id-token: write
   release:
     name: Release
     runs-on: ubuntu-latest
