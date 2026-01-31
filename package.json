@@ -1,7 +1,7 @@
 {
   "name": "@npldev/lpdb-ts-client",
   "type": "module",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "A client library for LPDB V3 API",
   "author": "npldevfr",
   "license": "MIT",
@@ -43,7 +43,8 @@
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
-    "prepublishOnly": "pnpm run build"
+    "prepublishOnly": "pnpm run build",
+    "bump": "bumpp"
   },
   "devDependencies": {
     "@types/node": "^25.0.3",
