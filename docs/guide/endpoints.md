@@ -97,7 +97,7 @@ client.endpoint('/match').rawstreams('true')
 The `Wiki` type includes all supported wikis:
 
 ```typescript
-import type { Wiki } from 'lpdb-ts-client'
+import type { Wiki } from '@npldev/lpdb-ts-client'
 
 const wiki: Wiki = 'dota2' // Type-safe wiki names
 ```

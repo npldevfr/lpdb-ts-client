@@ -5,7 +5,7 @@
 The client throws `LPDBError` for API errors:
 
 ```typescript
-import { LPDBClient, LPDBError } from 'lpdb-ts-client'
+import { LPDBClient, LPDBError } from '@npldev/lpdb-ts-client'
 
 const client = new LPDBClient({ apiKey: 'your-api-key' })
 

@@ -5,7 +5,7 @@
 The `LPDBClient` constructor accepts a configuration object:
 
 ```typescript
-import { LPDBClient } from 'lpdb-ts-client'
+import { LPDBClient } from '@npldev/lpdb-ts-client'
 
 const client = new LPDBClient({
   apiKey: 'your-api-key',

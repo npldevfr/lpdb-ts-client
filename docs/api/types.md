@@ -9,7 +9,7 @@ import type {
   ApiResponse,
   Wiki,
   // ... etc
-} from 'lpdb-ts-client'
+} from '@npldev/lpdb-ts-client'
 ```
 
 ## Core Types
@@ -129,7 +129,7 @@ type StandardEndpoint =
 The package also exports types generated from the OpenAPI spec:
 
 ```typescript
-import type { paths, components } from 'lpdb-ts-client'
+import type { paths, components } from '@npldev/lpdb-ts-client'
 
 // Access raw OpenAPI types
 type PlayerEndpoint = paths['/player']

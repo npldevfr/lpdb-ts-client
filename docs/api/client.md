@@ -25,7 +25,7 @@ interface LPDBClientOptions {
 ### Example
 
 ```typescript
-import { LPDBClient } from 'lpdb-ts-client'
+import { LPDBClient } from '@npldev/lpdb-ts-client'
 
 const client = new LPDBClient({
   apiKey: 'your-api-key',
@@ -72,5 +72,5 @@ executeQuery(
 ## Type Exports
 
 ```typescript
-import type { LPDBClientOptions } from 'lpdb-ts-client'
+import type { LPDBClientOptions } from '@npldev/lpdb-ts-client'
 ```
