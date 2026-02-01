@@ -1,7 +1,7 @@
 {
   "name": "@npldev/lpdb-ts-client",
   "type": "module",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "packageManager": "pnpm@10.28.1",
   "description": "A client library for LPDB V3 API",
   "author": "npldevfr",
