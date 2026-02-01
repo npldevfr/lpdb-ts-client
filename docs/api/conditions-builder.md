@@ -21,12 +21,12 @@ const Operator = {
 } as const
 ```
 
-| Operator       | Value  | Description      |
-| -------------- | ------ | ---------------- |
-| `EQUALS`       | `::`   | Equals           |
-| `NOT_EQUALS`   | `::!`  | Not equals       |
-| `LESS_THAN`    | `::<`  | Less than        |
-| `GREATER_THAN` | `::>`  | Greater than     |
+| Operator       | Value | Description  |
+| -------------- | ----- | ------------ |
+| `EQUALS`       | `::`  | Equals       |
+| `NOT_EQUALS`   | `::!` | Not equals   |
+| `LESS_THAN`    | `::<` | Less than    |
+| `GREATER_THAN` | `::>` | Greater than |
 
 ## Static Methods
 
@@ -48,11 +48,11 @@ ConditionsBuilder.create(
 
 #### Parameters
 
-| Parameter  | Type            | Required | Description                    |
-| ---------- | --------------- | -------- | ------------------------------ |
-| `key`      | `string`        | No       | The field name to filter on    |
-| `operator` | `OperatorValue` | No       | The comparison operator        |
-| `value`    | `string \| number` | No    | The value to compare against   |
+| Parameter  | Type               | Required | Description                  |
+| ---------- | ------------------ | -------- | ---------------------------- |
+| `key`      | `string`           | No       | The field name to filter on  |
+| `operator` | `OperatorValue`    | No       | The comparison operator      |
+| `value`    | `string \| number` | No       | The value to compare against |
 
 #### Example
 
@@ -74,8 +74,8 @@ ConditionsBuilder.raw(condition: string): ConditionsBuilder
 
 #### Parameters
 
-| Parameter   | Type     | Description                  |
-| ----------- | -------- | ---------------------------- |
+| Parameter   | Type     | Description                       |
+| ----------- | -------- | --------------------------------- |
 | `condition` | `string` | A raw Liquipedia condition string |
 
 #### Example
@@ -97,8 +97,7 @@ and(key: string, operator: OperatorValue, value: string | number): this
 #### Example
 
 ```typescript
-const conditions = ConditionsBuilder
-  .create('nationality', Operator.EQUALS, 'France')
+const conditions = ConditionsBuilder.create('nationality', Operator.EQUALS, 'France')
   .and('team', Operator.NOT_EQUALS, '')
   .toString()
 // => "([[nationality::France]]) AND ([[team::!]])"
@@ -115,8 +114,7 @@ or(key: string, operator: OperatorValue, value: string | number): this
 #### Example
 
 ```typescript
-const conditions = ConditionsBuilder
-  .create('nationality', Operator.EQUALS, 'France')
+const conditions = ConditionsBuilder.create('nationality', Operator.EQUALS, 'France')
   .or('nationality', Operator.EQUALS, 'Germany')
   .toString()
 // => "([[nationality::France]]) OR ([[nationality::Germany]])"
@@ -133,8 +131,7 @@ andManyAnd(key: string, operator: OperatorValue, values: (string | number)[]): t
 #### Example
 
 ```typescript
-const conditions = ConditionsBuilder
-  .create('status', Operator.EQUALS, 'active')
+const conditions = ConditionsBuilder.create('status', Operator.EQUALS, 'active')
   .andManyAnd('role', Operator.NOT_EQUALS, ['coach', 'analyst'])
   .toString()
 // => "([[status::active]]) AND ([[role::!coach]] AND [[role::!analyst]])"
@@ -151,8 +148,7 @@ andManyOr(key: string, operator: OperatorValue, values: (string | number)[]): th
 #### Example
 
 ```typescript
-const conditions = ConditionsBuilder
-  .create('status', Operator.EQUALS, 'active')
+const conditions = ConditionsBuilder.create('status', Operator.EQUALS, 'active')
   .andManyOr('nationality', Operator.EQUALS, ['France', 'Germany', 'Spain'])
   .toString()
 // => "([[status::active]]) AND ([[nationality::France]] OR [[nationality::Germany]] OR [[nationality::Spain]])"
@@ -169,8 +165,7 @@ orManyAnd(key: string, operator: OperatorValue, values: (string | number)[]): th
 #### Example
 
 ```typescript
-const conditions = ConditionsBuilder
-  .create('team', Operator.EQUALS, 'Team Liquid')
+const conditions = ConditionsBuilder.create('team', Operator.EQUALS, 'Team Liquid')
   .orManyAnd('role', Operator.EQUALS, ['captain', 'igl'])
   .toString()
 // => "([[team::Team Liquid]]) OR ([[role::captain]] AND [[role::igl]])"
@@ -187,8 +182,7 @@ orManyOr(key: string, operator: OperatorValue, values: (string | number)[]): thi
 #### Example
 
 ```typescript
-const conditions = ConditionsBuilder
-  .create('liquipediatier', Operator.EQUALS, '1')
+const conditions = ConditionsBuilder.create('liquipediatier', Operator.EQUALS, '1')
   .orManyOr('type', Operator.NOT_EQUALS, ['online', 'showmatch'])
   .toString()
 // => "([[liquipediatier::1]]) OR ([[type::!online]] OR [[type::!showmatch]])"
@@ -205,12 +199,13 @@ andGroup(builder: ConditionsBuilder): this
 #### Example
 
 ```typescript
-const tierConditions = ConditionsBuilder
-  .create('liquipediatier', Operator.EQUALS, '1')
-  .or('liquipediatier', Operator.EQUALS, '2')
+const tierConditions = ConditionsBuilder.create('liquipediatier', Operator.EQUALS, '1').or(
+  'liquipediatier',
+  Operator.EQUALS,
+  '2'
+)
 
-const conditions = ConditionsBuilder
-  .create('date', Operator.GREATER_THAN, '2024-01-01')
+const conditions = ConditionsBuilder.create('date', Operator.GREATER_THAN, '2024-01-01')
   .andGroup(tierConditions)
   .toString()
 // => "([[date::>2024-01-01]]) AND (([[liquipediatier::1]]) OR ([[liquipediatier::2]]))"
@@ -227,12 +222,13 @@ orGroup(builder: ConditionsBuilder): this
 #### Example
 
 ```typescript
-const premiumConditions = ConditionsBuilder
-  .create('liquipediatier', Operator.EQUALS, '1')
-  .and('prizepool', Operator.GREATER_THAN, '100000')
+const premiumConditions = ConditionsBuilder.create('liquipediatier', Operator.EQUALS, '1').and(
+  'prizepool',
+  Operator.GREATER_THAN,
+  '100000'
+)
 
-const conditions = ConditionsBuilder
-  .create('featured', Operator.EQUALS, 'true')
+const conditions = ConditionsBuilder.create('featured', Operator.EQUALS, 'true')
   .orGroup(premiumConditions)
   .toString()
 // => "([[featured::true]]) OR (([[liquipediatier::1]]) AND ([[prizepool::>100000]]))"
@@ -249,9 +245,11 @@ toString(): string
 #### Example
 
 ```typescript
-const conditionString = ConditionsBuilder
-  .create('nationality', Operator.EQUALS, 'France')
-  .toString()
+const conditionString = ConditionsBuilder.create(
+  'nationality',
+  Operator.EQUALS,
+  'France'
+).toString()
 // => "([[nationality::France]])"
 ```
 
@@ -272,13 +270,14 @@ import type { OperatorValue } from '@npldev/lpdb-ts-client'
 ## Usage with QueryBuilder
 
 ```typescript
-const conditions = ConditionsBuilder
-  .create('date', Operator.GREATER_THAN, '2024-01-01')
+const conditions = ConditionsBuilder.create('date', Operator.GREATER_THAN, '2024-01-01')
   .and('date', Operator.LESS_THAN, '2024-12-31')
   .andGroup(
-    ConditionsBuilder
-      .create('liquipediatier', Operator.EQUALS, '1')
-      .or('liquipediatier', Operator.EQUALS, '2')
+    ConditionsBuilder.create('liquipediatier', Operator.EQUALS, '1').or(
+      'liquipediatier',
+      Operator.EQUALS,
+      '2'
+    )
   )
   .toString()
 
