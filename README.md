@@ -9,6 +9,10 @@
 </p>
 
 <p align="center">
+  <em>This is an unofficial library and is not affiliated with or endorsed by Liquipedia.</em>
+</p>
+
+<p align="center">
   <a href="https://www.npmjs.com/package/@npldev/lpdb-ts-client">
     <img src="https://img.shields.io/npm/v/@npldev/lpdb-ts-client?color=blue&label=npm" alt="npm version" />
   </a>
