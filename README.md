@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="docs/public/assets/liquipedia-ts.png" alt="LPDB Client Logo" width="200" />
-</p>
-
 <h1 align="center">@npldev/lpdb-ts-client</h1>
 
 <p align="center">
