@@ -31,6 +31,7 @@ export default defineConfig({
           text: 'Usage',
           items: [
             { text: 'Basic Queries', link: '/guide/basic-queries' },
+            { text: 'Conditions Builder', link: '/guide/conditions-builder' },
             { text: 'Endpoints', link: '/guide/endpoints' },
             { text: 'Error Handling', link: '/guide/error-handling' },
           ],

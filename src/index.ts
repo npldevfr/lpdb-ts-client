@@ -1,4 +1,6 @@
 export { LPDBClient, QueryBuilder, LPDBError } from './client'
+export { ConditionsBuilder, Operator } from './utils/conditions-builder'
+export type { OperatorValue } from './utils/conditions-builder'
 export type { LPDBClientOptions } from './client'
 export type {
   EndpointPath,

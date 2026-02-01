@@ -38,6 +38,7 @@
 
 - **Type-Safe** - Full TypeScript support with types generated from the OpenAPI spec
 - **Fluent Builder API** - Chain methods together for readable and maintainable code
+- **Conditions Builder** - Build complex query conditions with a fluent, type-safe API
 - **All Wikis Supported** - Access data from 70+ esports wikis (Dota 2, CS2, LoL, Valorant...)
 - **Lightweight** - Zero runtime dependencies, uses native fetch API
 
@@ -103,6 +104,31 @@ const teams = await client
   .execute()
 ```
 
+### Conditions Builder
+
+Build complex query conditions with a fluent API:
+
+```typescript
+import { ConditionsBuilder, Operator } from '@npldev/lpdb-ts-client'
+
+const conditions = ConditionsBuilder.create('date', Operator.GREATER_THAN, '2024-01-01')
+  .and('date', Operator.LESS_THAN, '2024-12-31')
+  .andGroup(
+    ConditionsBuilder.create('liquipediatier', Operator.EQUALS, '1').or(
+      'liquipediatier',
+      Operator.EQUALS,
+      '2'
+    )
+  )
+  .toString()
+
+const tournaments = await client
+  .endpoint('/tournament')
+  .wiki('dota2')
+  .conditions(conditions)
+  .execute()
+```
+
 ### Error handling
 
 ```typescript
@@ -123,6 +149,7 @@ Full documentation is available at [npldevfr.github.io/lpdb-ts-client](https://n
 
 - [Getting Started](https://npldevfr.github.io/lpdb-ts-client/guide/getting-started)
 - [Configuration](https://npldevfr.github.io/lpdb-ts-client/guide/configuration)
+- [Conditions Builder](https://npldevfr.github.io/lpdb-ts-client/guide/conditions-builder)
 - [Endpoints](https://npldevfr.github.io/lpdb-ts-client/guide/endpoints)
 - [API Reference](https://npldevfr.github.io/lpdb-ts-client/api/client)
 
