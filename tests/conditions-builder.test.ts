@@ -59,6 +59,11 @@ describe('ConditionsBuilder', () => {
       )
       expect(builder.toString()).toBe('([[liquipediatier::1]]) OR ([[liquipediatier::2]])')
     })
+
+    it('should handle first condition without prefix', () => {
+      const builder = ConditionsBuilder.create().or('nationality', Operator.EQUALS, 'France')
+      expect(builder.toString()).toBe('([[nationality::France]])')
+    })
   })
 
   describe('operators', () => {
@@ -90,6 +95,17 @@ describe('ConditionsBuilder', () => {
         'postponed',
       ])
       expect(builder.toString()).toBe('([[status::!cancelled]] AND [[status::!postponed]])')
+    })
+
+    it('should add AND prefix when not empty', () => {
+      const builder = ConditionsBuilder.create('wiki', Operator.EQUALS, 'dota2').andManyAnd(
+        'status',
+        Operator.NOT_EQUALS,
+        ['cancelled', 'postponed']
+      )
+      expect(builder.toString()).toBe(
+        '([[wiki::dota2]]) AND ([[status::!cancelled]] AND [[status::!postponed]])'
+      )
     })
   })
 
@@ -128,6 +144,14 @@ describe('ConditionsBuilder', () => {
         '([[type::online]]) OR ([[status::finished]] AND [[status::live]])'
       )
     })
+
+    it('should handle first condition without prefix', () => {
+      const builder = ConditionsBuilder.create().orManyAnd('status', Operator.EQUALS, [
+        'finished',
+        'live',
+      ])
+      expect(builder.toString()).toBe('([[status::finished]] AND [[status::live]])')
+    })
   })
 
   describe('orManyOr', () => {
@@ -138,6 +162,11 @@ describe('ConditionsBuilder', () => {
         ['NA', 'SA']
       )
       expect(builder.toString()).toBe('([[region::EU]]) OR ([[region::NA]] OR [[region::SA]])')
+    })
+
+    it('should handle first condition without prefix', () => {
+      const builder = ConditionsBuilder.create().orManyOr('region', Operator.EQUALS, ['NA', 'SA'])
+      expect(builder.toString()).toBe('([[region::NA]] OR [[region::SA]])')
     })
   })
 
@@ -162,6 +191,20 @@ describe('ConditionsBuilder', () => {
       const builder = ConditionsBuilder.create('region', Operator.EQUALS, 'NA').orGroup(inner)
 
       expect(builder.toString()).toBe('([[region::NA]]) OR (([[region::EU]]))')
+    })
+
+    it('should add andGroup without prefix when empty', () => {
+      const inner = ConditionsBuilder.create('liquipediatier', Operator.EQUALS, '1')
+      const builder = ConditionsBuilder.create().andGroup(inner)
+
+      expect(builder.toString()).toBe('(([[liquipediatier::1]]))')
+    })
+
+    it('should add orGroup without prefix when empty', () => {
+      const inner = ConditionsBuilder.create('region', Operator.EQUALS, 'EU')
+      const builder = ConditionsBuilder.create().orGroup(inner)
+
+      expect(builder.toString()).toBe('(([[region::EU]]))')
     })
   })
 
