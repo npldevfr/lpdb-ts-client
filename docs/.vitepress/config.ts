@@ -41,6 +41,7 @@ export default defineConfig({
           items: [
             { text: 'LPDBClient', link: '/api/client' },
             { text: 'QueryBuilder', link: '/api/query-builder' },
+            { text: 'ConditionsBuilder', link: '/api/conditions-builder' },
             { text: 'Types', link: '/api/types' },
           ],
         },

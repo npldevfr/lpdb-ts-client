@@ -12,6 +12,9 @@
   <a href="https://www.npmjs.com/package/@npldev/lpdb-ts-client">
     <img src="https://img.shields.io/npm/v/@npldev/lpdb-ts-client?color=blue&label=npm" alt="npm version" />
   </a>
+  <a href="https://www.npmjs.com/package/@npldev/lpdb-ts-client">
+    <img src="https://img.shields.io/npm/dm/@npldev/lpdb-ts-client" alt="npm downloads" />
+  </a>
   <a href="https://github.com/npldevfr/lpdb-ts-client/actions/workflows/ci.yml">
     <img src="https://github.com/npldevfr/lpdb-ts-client/actions/workflows/ci.yml/badge.svg" alt="CI" />
   </a>
