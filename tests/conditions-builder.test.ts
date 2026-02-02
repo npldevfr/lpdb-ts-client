@@ -10,7 +10,7 @@ describe('ConditionsBuilder', () => {
 
     it('should create a builder with initial condition', () => {
       const builder = ConditionsBuilder.create('nationality', Operator.EQUALS, 'France')
-      expect(builder.toString()).toBe('([[nationality::France]])')
+      expect(builder.toString()).toBe('[[nationality::France]]')
     })
 
     it('should throw error for invalid operator', () => {
@@ -32,6 +32,11 @@ describe('ConditionsBuilder', () => {
       const builder = ConditionsBuilder.raw('[[date::>2017-11-14]]')
       expect(builder.toString()).toBe('[[date::>2017-11-14]]')
     })
+
+    it('should handle empty string', () => {
+      const builder = ConditionsBuilder.raw('')
+      expect(builder.toString()).toBe('')
+    })
   })
 
   describe('and', () => {
@@ -41,12 +46,12 @@ describe('ConditionsBuilder', () => {
         Operator.EQUALS,
         'Team Liquid'
       )
-      expect(builder.toString()).toBe('([[nationality::France]]) AND ([[team::Team Liquid]])')
+      expect(builder.toString()).toBe('[[nationality::France]] AND [[team::Team Liquid]]')
     })
 
     it('should handle first condition without prefix', () => {
       const builder = ConditionsBuilder.create().and('nationality', Operator.EQUALS, 'France')
-      expect(builder.toString()).toBe('([[nationality::France]])')
+      expect(builder.toString()).toBe('[[nationality::France]]')
     })
   })
 
@@ -57,34 +62,34 @@ describe('ConditionsBuilder', () => {
         Operator.EQUALS,
         '2'
       )
-      expect(builder.toString()).toBe('([[liquipediatier::1]]) OR ([[liquipediatier::2]])')
+      expect(builder.toString()).toBe('[[liquipediatier::1]] OR [[liquipediatier::2]]')
     })
 
     it('should handle first condition without prefix', () => {
       const builder = ConditionsBuilder.create().or('nationality', Operator.EQUALS, 'France')
-      expect(builder.toString()).toBe('([[nationality::France]])')
+      expect(builder.toString()).toBe('[[nationality::France]]')
     })
   })
 
   describe('operators', () => {
     it('should handle EQUALS operator', () => {
       const builder = ConditionsBuilder.create('name', Operator.EQUALS, 'test')
-      expect(builder.toString()).toBe('([[name::test]])')
+      expect(builder.toString()).toBe('[[name::test]]')
     })
 
     it('should handle NOT_EQUALS operator', () => {
       const builder = ConditionsBuilder.create('type', Operator.NOT_EQUALS, 'online')
-      expect(builder.toString()).toBe('([[type::!online]])')
+      expect(builder.toString()).toBe('[[type::!online]]')
     })
 
     it('should handle LESS_THAN operator', () => {
       const builder = ConditionsBuilder.create('date', Operator.LESS_THAN, '2017-12-14')
-      expect(builder.toString()).toBe('([[date::<2017-12-14]])')
+      expect(builder.toString()).toBe('[[date::<2017-12-14]]')
     })
 
     it('should handle GREATER_THAN operator', () => {
       const builder = ConditionsBuilder.create('date', Operator.GREATER_THAN, '2017-11-14')
-      expect(builder.toString()).toBe('([[date::>2017-11-14]])')
+      expect(builder.toString()).toBe('[[date::>2017-11-14]]')
     })
   })
 
@@ -104,7 +109,7 @@ describe('ConditionsBuilder', () => {
         ['cancelled', 'postponed']
       )
       expect(builder.toString()).toBe(
-        '([[wiki::dota2]]) AND ([[status::!cancelled]] AND [[status::!postponed]])'
+        '[[wiki::dota2]] AND ([[status::!cancelled]] AND [[status::!postponed]])'
       )
     })
   })
@@ -128,7 +133,7 @@ describe('ConditionsBuilder', () => {
         ['1', '2']
       )
       expect(builder.toString()).toBe(
-        '([[wiki::dota2]]) AND ([[liquipediatier::1]] OR [[liquipediatier::2]])'
+        '[[wiki::dota2]] AND ([[liquipediatier::1]] OR [[liquipediatier::2]])'
       )
     })
   })
@@ -141,7 +146,7 @@ describe('ConditionsBuilder', () => {
         ['finished', 'live']
       )
       expect(builder.toString()).toBe(
-        '([[type::online]]) OR ([[status::finished]] AND [[status::live]])'
+        '[[type::online]] OR ([[status::finished]] AND [[status::live]])'
       )
     })
 
@@ -161,7 +166,7 @@ describe('ConditionsBuilder', () => {
         Operator.EQUALS,
         ['NA', 'SA']
       )
-      expect(builder.toString()).toBe('([[region::EU]]) OR ([[region::NA]] OR [[region::SA]])')
+      expect(builder.toString()).toBe('[[region::EU]] OR ([[region::NA]] OR [[region::SA]])')
     })
 
     it('should handle first condition without prefix', () => {
@@ -182,7 +187,7 @@ describe('ConditionsBuilder', () => {
         .andGroup(inner)
 
       expect(builder.toString()).toBe(
-        '([[date::>2017-11-14]]) AND ([[date::<2017-12-14]]) AND (([[liquipediatier::1]]) OR ([[type::!online]]))'
+        '[[date::>2017-11-14]] AND [[date::<2017-12-14]] AND ([[liquipediatier::1]] OR [[type::!online]])'
       )
     })
 
@@ -190,38 +195,51 @@ describe('ConditionsBuilder', () => {
       const inner = ConditionsBuilder.create('region', Operator.EQUALS, 'EU')
       const builder = ConditionsBuilder.create('region', Operator.EQUALS, 'NA').orGroup(inner)
 
-      expect(builder.toString()).toBe('([[region::NA]]) OR (([[region::EU]]))')
+      expect(builder.toString()).toBe('[[region::NA]] OR [[region::EU]]')
     })
 
     it('should add andGroup without prefix when empty', () => {
       const inner = ConditionsBuilder.create('liquipediatier', Operator.EQUALS, '1')
       const builder = ConditionsBuilder.create().andGroup(inner)
 
-      expect(builder.toString()).toBe('(([[liquipediatier::1]]))')
+      expect(builder.toString()).toBe('[[liquipediatier::1]]')
     })
 
     it('should add orGroup without prefix when empty', () => {
       const inner = ConditionsBuilder.create('region', Operator.EQUALS, 'EU')
       const builder = ConditionsBuilder.create().orGroup(inner)
 
-      expect(builder.toString()).toBe('(([[region::EU]]))')
+      expect(builder.toString()).toBe('[[region::EU]]')
+    })
+
+    it('should wrap orGroup in parentheses when inner has multiple parts', () => {
+      const inner = ConditionsBuilder.create('liquipediatier', Operator.EQUALS, '1').and(
+        'prizepool',
+        Operator.GREATER_THAN,
+        '100000'
+      )
+      const builder = ConditionsBuilder.create('featured', Operator.EQUALS, 'true').orGroup(inner)
+
+      expect(builder.toString()).toBe(
+        '[[featured::true]] OR ([[liquipediatier::1]] AND [[prizepool::>100000]])'
+      )
     })
   })
 
   describe('subkeys and date functions', () => {
     it('should handle extradata subkeys', () => {
       const builder = ConditionsBuilder.create('extradata_key', Operator.EQUALS, 'test')
-      expect(builder.toString()).toBe('([[extradata_key::test]])')
+      expect(builder.toString()).toBe('[[extradata_key::test]]')
     })
 
     it('should handle date year function', () => {
       const builder = ConditionsBuilder.create('birthdate_year', Operator.EQUALS, '1995')
-      expect(builder.toString()).toBe('([[birthdate_year::1995]])')
+      expect(builder.toString()).toBe('[[birthdate_year::1995]]')
     })
 
     it('should handle date month function', () => {
       const builder = ConditionsBuilder.create('birthdate_month', Operator.EQUALS, '2')
-      expect(builder.toString()).toBe('([[birthdate_month::2]])')
+      expect(builder.toString()).toBe('[[birthdate_month::2]]')
     })
 
     it('should combine date functions', () => {
@@ -230,7 +248,7 @@ describe('ConditionsBuilder', () => {
         Operator.EQUALS,
         '2'
       )
-      expect(builder.toString()).toBe('([[birthdate_year::1995]]) AND ([[birthdate_month::2]])')
+      expect(builder.toString()).toBe('[[birthdate_year::1995]] AND [[birthdate_month::2]]')
     })
   })
 
@@ -249,7 +267,7 @@ describe('ConditionsBuilder', () => {
         .and('extradata_key', Operator.EQUALS, 'test')
 
       expect(builder.toString()).toBe(
-        '([[date::>2017-11-14]]) AND ([[date::<2017-12-14]]) AND (([[liquipediatier::1]]) OR ([[type::!online]])) AND ([[extradata_key::test]])'
+        '[[date::>2017-11-14]] AND [[date::<2017-12-14]] AND ([[liquipediatier::1]] OR [[type::!online]]) AND [[extradata_key::test]]'
       )
     })
   })
@@ -264,7 +282,7 @@ describe('ConditionsBuilder', () => {
   describe('numeric values', () => {
     it('should handle numeric values', () => {
       const builder = ConditionsBuilder.create('liquipediatier', Operator.EQUALS, 1)
-      expect(builder.toString()).toBe('([[liquipediatier::1]])')
+      expect(builder.toString()).toBe('[[liquipediatier::1]]')
     })
 
     it('should handle numeric values in andManyOr', () => {

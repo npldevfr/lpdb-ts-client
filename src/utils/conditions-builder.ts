@@ -14,8 +14,13 @@ export const Operator = {
 
 export type OperatorValue = (typeof Operator)[keyof typeof Operator]
 
+type LogicalOperator = 'AND' | 'OR' | null
+
 /**
  * A fluent builder for constructing Liquipedia API condition strings.
+ * Optimizes output by minimizing unnecessary parentheses.
+ *
+ * This is especially useful when we have complex conditions to optmize query length.
  *
  * @example
  * ```ts
@@ -24,7 +29,7 @@ export type OperatorValue = (typeof Operator)[keyof typeof Operator]
  *   .create('nationality', '::', 'France')
  *   .and('team', '::', 'Team Liquid')
  *   .toString()
- * // => "([[nationality::France]]) AND ([[team::Team Liquid]])"
+ * // => "[[nationality::France]] AND [[team::Team Liquid]]"
  *
  * // Date range
  * const dateRange = ConditionsBuilder
@@ -51,11 +56,10 @@ export type OperatorValue = (typeof Operator)[keyof typeof Operator]
  * ```
  */
 export class ConditionsBuilder {
-  private raw: string
+  private parts: string[] = []
+  private operators: LogicalOperator[] = []
 
-  private constructor(raw: string = '') {
-    this.raw = raw
-  }
+  private constructor() {}
 
   /**
    * Create a new ConditionsBuilder instance
@@ -67,13 +71,16 @@ export class ConditionsBuilder {
     operator?: OperatorValue,
     value?: string | number
   ): ConditionsBuilder {
+    const builder = new ConditionsBuilder()
+
     if (key === undefined && operator === undefined && value === undefined) {
-      return new ConditionsBuilder()
+      return builder
     }
 
     if (key !== undefined && operator !== undefined && value !== undefined) {
       ConditionsBuilder.ensureValidOperator(operator)
-      return new ConditionsBuilder(`([[${key}${operator}${value}]])`)
+      builder.parts.push(`[[${key}${operator}${value}]]`)
+      return builder
     }
 
     throw new Error(
@@ -85,7 +92,11 @@ export class ConditionsBuilder {
    * Create a ConditionsBuilder from a raw condition string
    */
   static raw(condition: string): ConditionsBuilder {
-    return new ConditionsBuilder(condition)
+    const builder = new ConditionsBuilder()
+    if (condition) {
+      builder.parts.push(condition)
+    }
+    return builder
   }
 
   private static ensureValidOperator(operator: string): void {
@@ -98,7 +109,13 @@ export class ConditionsBuilder {
   }
 
   private isEmpty(): boolean {
-    return this.raw === ''
+    return this.parts.length === 0
+  }
+
+  private hasMixedOperators(): boolean {
+    const ops = this.operators.filter((o) => o !== null)
+    if (ops.length === 0) return false
+    return ops.some((o) => o !== ops[0])
   }
 
   /**
@@ -106,8 +123,10 @@ export class ConditionsBuilder {
    */
   and(key: string, operator: OperatorValue, value: string | number): this {
     ConditionsBuilder.ensureValidOperator(operator)
-    const prefix = this.isEmpty() ? '' : ' AND '
-    this.raw += `${prefix}([[${key}${operator}${value}]])`
+    if (!this.isEmpty()) {
+      this.operators.push('AND')
+    }
+    this.parts.push(`[[${key}${operator}${value}]]`)
     return this
   }
 
@@ -116,8 +135,10 @@ export class ConditionsBuilder {
    */
   or(key: string, operator: OperatorValue, value: string | number): this {
     ConditionsBuilder.ensureValidOperator(operator)
-    const prefix = this.isEmpty() ? '' : ' OR '
-    this.raw += `${prefix}([[${key}${operator}${value}]])`
+    if (!this.isEmpty()) {
+      this.operators.push('OR')
+    }
+    this.parts.push(`[[${key}${operator}${value}]]`)
     return this
   }
 
@@ -128,8 +149,10 @@ export class ConditionsBuilder {
   andManyAnd(key: string, operator: OperatorValue, values: (string | number)[]): this {
     ConditionsBuilder.ensureValidOperator(operator)
     const conditions = values.map((v) => `[[${key}${operator}${v}]]`)
-    const prefix = this.isEmpty() ? '' : ' AND '
-    this.raw += `${prefix}(${conditions.join(' AND ')})`
+    if (!this.isEmpty()) {
+      this.operators.push('AND')
+    }
+    this.parts.push(`(${conditions.join(' AND ')})`)
     return this
   }
 
@@ -140,8 +163,10 @@ export class ConditionsBuilder {
   andManyOr(key: string, operator: OperatorValue, values: (string | number)[]): this {
     ConditionsBuilder.ensureValidOperator(operator)
     const conditions = values.map((v) => `[[${key}${operator}${v}]]`)
-    const prefix = this.isEmpty() ? '' : ' AND '
-    this.raw += `${prefix}(${conditions.join(' OR ')})`
+    if (!this.isEmpty()) {
+      this.operators.push('AND')
+    }
+    this.parts.push(`(${conditions.join(' OR ')})`)
     return this
   }
 
@@ -152,8 +177,10 @@ export class ConditionsBuilder {
   orManyAnd(key: string, operator: OperatorValue, values: (string | number)[]): this {
     ConditionsBuilder.ensureValidOperator(operator)
     const conditions = values.map((v) => `[[${key}${operator}${v}]]`)
-    const prefix = this.isEmpty() ? '' : ' OR '
-    this.raw += `${prefix}(${conditions.join(' AND ')})`
+    if (!this.isEmpty()) {
+      this.operators.push('OR')
+    }
+    this.parts.push(`(${conditions.join(' AND ')})`)
     return this
   }
 
@@ -164,8 +191,10 @@ export class ConditionsBuilder {
   orManyOr(key: string, operator: OperatorValue, values: (string | number)[]): this {
     ConditionsBuilder.ensureValidOperator(operator)
     const conditions = values.map((v) => `[[${key}${operator}${v}]]`)
-    const prefix = this.isEmpty() ? '' : ' OR '
-    this.raw += `${prefix}(${conditions.join(' OR ')})`
+    if (!this.isEmpty()) {
+      this.operators.push('OR')
+    }
+    this.parts.push(`(${conditions.join(' OR ')})`)
     return this
   }
 
@@ -173,8 +202,17 @@ export class ConditionsBuilder {
    * Add a nested group of conditions with AND
    */
   andGroup(builder: ConditionsBuilder): this {
-    const prefix = this.isEmpty() ? '' : ' AND '
-    this.raw += `${prefix}(${builder.toString()})`
+    if (!this.isEmpty()) {
+      this.operators.push('AND')
+    }
+    const inner = builder.toString()
+    // Only wrap in parentheses if the inner builder has mixed operators
+    // or if we're mixing operators at this level
+    if (builder.hasMixedOperators() || builder.parts.length > 1) {
+      this.parts.push(`(${inner})`)
+    } else {
+      this.parts.push(inner)
+    }
     return this
   }
 
@@ -182,8 +220,17 @@ export class ConditionsBuilder {
    * Add a nested group of conditions with OR
    */
   orGroup(builder: ConditionsBuilder): this {
-    const prefix = this.isEmpty() ? '' : ' OR '
-    this.raw += `${prefix}(${builder.toString()})`
+    if (!this.isEmpty()) {
+      this.operators.push('OR')
+    }
+    const inner = builder.toString()
+    // Only wrap in parentheses if the inner builder has mixed operators
+    // or if we're mixing operators at this level
+    if (builder.hasMixedOperators() || builder.parts.length > 1) {
+      this.parts.push(`(${inner})`)
+    } else {
+      this.parts.push(inner)
+    }
     return this
   }
 
@@ -191,13 +238,20 @@ export class ConditionsBuilder {
    * Get the built condition string
    */
   toString(): string {
-    return this.raw
+    if (this.parts.length === 0) return ''
+    if (this.parts.length === 1) return this.parts[0]!
+
+    let result = this.parts[0]!
+    for (let i = 1; i < this.parts.length; i++) {
+      result += ` ${this.operators[i - 1]} ${this.parts[i]}`
+    }
+    return result
   }
 
   /**
    * Alias for toString()
    */
   toValue(): string {
-    return this.raw
+    return this.toString()
   }
 }
