@@ -1,5 +1,5 @@
 import type { paths } from './types/openapi/generated'
-import type { EndpointPath, ApiResponse } from './types/endpoints'
+import type { EndpointPath, TypedApiResponse } from './types/endpoints'
 import { buildQueryString } from './utils/query-builder'
 import type { Wiki } from './types/wikis'
 
@@ -100,8 +100,8 @@ export class QueryBuilder<T extends EndpointPath> {
   }
 
   // Execute the query and return results
-  async execute(): Promise<ApiResponse> {
-    return this.client.executeQuery(this.path, this.params)
+  async execute<R = Record<string, unknown>>(): Promise<TypedApiResponse<R>> {
+    return this.client.executeQuery<R>(this.path, this.params)
   }
 
   build(): { path: T; params: Record<string, string | number | undefined> } {
@@ -125,10 +125,10 @@ export class LPDBClient {
   }
 
   // Execute a query (called by QueryBuilder)
-  async executeQuery(
+  async executeQuery<R = Record<string, unknown>>(
     path: EndpointPath,
     params: Record<string, string | number | undefined>
-  ): Promise<ApiResponse> {
+  ): Promise<TypedApiResponse<R>> {
     const queryString = buildQueryString(params)
     const url = `${this.baseUrl}${path}${queryString}`
 
@@ -149,7 +149,7 @@ export class LPDBClient {
       )
     }
 
-    return response.json() as Promise<ApiResponse>
+    return response.json() as Promise<TypedApiResponse<R>>
   }
 }
 

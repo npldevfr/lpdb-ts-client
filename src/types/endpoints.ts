@@ -9,6 +9,10 @@ export type ErrorResponse = components['schemas']['error']
 
 export type ApiResponse = SuccessfulResponse | SuccessfulResponseWithWarning
 
+export type TypedApiResponse<T = Record<string, unknown>> =
+  | { result?: T[] }
+  | { result?: T[]; warning?: string[] }
+
 export type StandardEndpoint =
   | '/broadcasters'
   | '/company'

@@ -6,6 +6,7 @@ export type {
   EndpointPath,
   EndpointParams,
   ApiResponse,
+  TypedApiResponse,
   SuccessfulResponse,
   SuccessfulResponseWithWarning,
   ErrorResponse,
